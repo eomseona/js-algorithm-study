@@ -80,14 +80,65 @@ class singlyLinkedList {
     }
     return false;
   }
+
+  insert(index, val) {
+    if (index < 0 || index > this.length) return false;
+    if (index === 0) !!this.unshift(newNode);
+    if (index === this.length) !!this.push(val);
+
+    let newNode = new Node(val);
+    const prevNode = this.get(index - 1);
+    const tmp = prevNode.next;
+    prevNode.next = newNode;
+    newNode.next = tmp;
+    this.length++;
+    return true;
+  }
+
+  remove(index) {
+    if (index < 0 || index >= this.length) return undefined;
+    if (index === 0) return this.shift();
+    if (index === this.length - 1) return this.pop();
+    const prevNode = this.get(index - 1);
+    const deletedNode = prevNode.next;
+    prevNode.next = deletedNode.next;
+    this.length--;
+    return deletedNode.val;
+  }
+
+  reverse() {
+    let node = this.head;
+    this.head = this.tail;
+    this.tail = node;
+
+    let next;
+    let prev = null;
+
+    for (let i = 0; i < this.length; i++) {
+      next = node.next;
+      node.next = prev;
+      prev = node;
+      node = next;
+    }
+    return this;
+  }
+
+  print() {
+    let arr = [];
+    let current = this.head;
+    while (current) {
+      arr.push(current.val);
+      current = current.next;
+    }
+    console.log(arr);
+  }
 }
 
-const list = new singlyLinkedList();
-list.push("first");
-list.push("second");
-list.push("third");
-list.push("forth");
-console.log(list.get(3));
-console.log(list.set(3, "final"));
-console.log(list.get(3));
-console.log(list);
+// const list = new singlyLinkedList();
+// list.push("first");
+// list.push("second");
+// list.push("third");
+// list.push("forth");
+// console.log(list.print());
+// list.reverse();
+// console.log(list.print());
